@@ -1,0 +1,5 @@
+__pycache__
+.idea
+frames
+detected_faces
+venv
