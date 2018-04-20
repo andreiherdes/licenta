@@ -3,3 +3,4 @@ __pycache__
 frames
 detected_faces
 venv
+dataset/*
