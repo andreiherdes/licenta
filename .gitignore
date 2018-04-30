@@ -1,6 +1,9 @@
 __pycache__
 .idea
-frames
-detected_faces
-venv
+frames/*
+detected_faces/*
 dataset/*
+utils.py
+
+.floydignore
+.floydexpt
