@@ -43,7 +43,10 @@ class VideoCamera(object):
                 print(e)
                 continue
 
-            emotion_label_arg = np.argmax(self.emotion_classifier.predict(face))
+            prediction = self.emotion_classifier.predict(face)
+
+            print('Prediction: ', prediction)
+            emotion_label_arg = np.argmax(prediction)
             emotion_text = get_emotion(emotion_label_arg)
 
             print(emotion_text)

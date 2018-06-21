@@ -4,18 +4,35 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 from keras.callbacks import ModelCheckpoint
+import math
 
-from utils import *
+#constants
+PATH_SORTED_DIRS = '/dataset/'
+
+def create_class_weight(labels_dict,mu=0.15):
+    total = 9085
+    keys = labels_dict.keys()
+    class_weight = dict()
+
+    for key in keys:
+        score = math.log(mu*total/float(labels_dict[key]))
+        class_weight[key] = score if score > 1.0 else 1.0
+
+    return class_weight
+
+
+# labels_dict
+labels_dict = {0: 185, 1: 3669, 2: 4889, 3: 101, 4: 241}
 
 # dimensions of our images.
 img_width, img_height = 100, 100
 
-train_data_dir = PATH_SORTED_DIRS_LOCAL + 'train'
-validation_data_dir = PATH_SORTED_DIRS_LOCAL + 'validation'
-nb_train_samples = 9109
-nb_validation_samples = 3653
-epochs = 50
-batch_size = 16
+train_data_dir = PATH_SORTED_DIRS + 'train'
+validation_data_dir = PATH_SORTED_DIRS + 'validation'
+nb_train_samples = 9085 #9109
+nb_validation_samples = 3642 #3653
+epochs = 100
+batch_size = 32
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -40,7 +57,7 @@ model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dense(1200))
 model.add(Dropout(0.5))
-model.add(Dense(8))
+model.add(Dense(5))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy',
@@ -71,9 +88,11 @@ validation_generator = test_datagen.flow_from_directory(
     class_mode='categorical')
 
 # checkpoint
-filepath='../trained-models/weights.best.h5'
+filepath='/output/weights.best.h5'
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
+
+print(create_class_weight(labels_dict))
 
 model.fit_generator(
     train_generator,
@@ -81,7 +100,8 @@ model.fit_generator(
     epochs=epochs,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size,
-    callbacks=callbacks_list)
+    callbacks=callbacks_list,
+    class_weight=create_class_weight(labels_dict))
 
 
-model.save_weights('../trained-models/first_try.h5')
+model.save('/output/second_try.h5')

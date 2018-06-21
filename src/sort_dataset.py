@@ -1,5 +1,3 @@
-import os
-import numpy as np
 import pandas as pd
 import shutil
 from utils import *
@@ -10,8 +8,6 @@ def make_dirs():
     for i in range(1,9):
         if not os.path.exists(PATH_SORTED_DIRS + get_emotion(i)):
             os.makedirs(PATH_SORTED_DIRS + get_emotion(i))
-
-make_dirs()
 
 if __name__ == '__main__':
     make_dirs()

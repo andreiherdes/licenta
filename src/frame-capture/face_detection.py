@@ -1,17 +1,21 @@
-import datetime
-import os
 from pathlib import Path
 import cv2
 import numpy as np
-from model import create_model
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
+from PIL import Image
+from keras import backend as K
+
 
 from utils import *
 
 if __name__ == '__main__':
+    #IMAGE_FOLDER_PATH = 'e:\\Facultate\\licenta\\frames\\30-4-2018'
+    #PATH_OUTPUT = 'e:\\Facultate\\licenta\\detected_faces\\30-4-2018'
     pathlist = Path(IMAGE_FOLDER_PATH).glob('**/*.jpg')
     count = 0
+
+    make_dir(PATH_OUTPUT)
 
     for path in pathlist:
         # because path is object not string
@@ -19,6 +23,9 @@ if __name__ == '__main__':
 
         face_detection_model = cv2.CascadeClassifier(HAARCASCADE_FRONTALFACE_XML_PATH)
         emotion_classifier = load_model(EMOTION_CLASSIFIER_PATH, compile=False)
+        emotion_classifier.compile(loss='categorical_crossentropy',
+                                   optimizer='adam',
+                                   metrics=['accuracy'])
 
         emotion_target_size = emotion_classifier.input_shape[1:3]
 
@@ -29,37 +36,35 @@ if __name__ == '__main__':
 
         faces = face_detection_model.detectMultiScale(gray, 1.3, 5)
         for (x,y,w,h) in faces:
-            output = gray[y:y+h, x:x+w]
+            face = gray[y:y+h, x:x+w]
             image_output_path = PATH_OUTPUT + "\\face%d.jpg" % count
             try:
-                output = cv2.resize(gray, (emotion_target_size))
-                cv2.imwrite(image_output_path, output)
-            except:
-                print("Error at: ", path_in_str)
+                face = cv2.resize(face, emotion_target_size)
+                #cv2.imwrite(image_output_path, face)
+                '''pil_im = Image.fromarray(face)
+                pil_im.thumbnail(emotion_target_size)
+                #pil_im.show()
+                x = img_to_array(pil_im)
+                x = np.expand_dims(x, axis=0)
+
+                print (x.shape)
+
+                emotion_label_arg = np.argmax(emotion_classifier.predict(x))
+                emotion_text = get_emotion(emotion_label_arg)
+                '''
+            except Exception as e:
+                print(e)
                 pass
+
             img = load_img(image_output_path, False)
-            x = img_to_array(img)
-            x = np.expand_dims(x, axis=0)
-            emotion_label_arg = np.argmax(emotion_classifier.predict(x))
+            y = img_to_array(img)
+            y = np.expand_dims(y, axis=0)
+
+            emotion_label_arg = np.argmax(emotion_classifier.predict(y))
             emotion_text = get_emotion(emotion_label_arg)
+
+            print(emotion_classifier.predict(y))
+
             print('Image:', image_output_path)
             print('Emotion:', emotion_text)
-            #output = preprocess_input(output, False)
-            #output = np.expand_dims(output, 0)
-            #output = np.expand_dims(output, -1)
-            #output = output[None, ...]
-            #emotion_label_arg = np.argmax(emotion_classifier.predict(output))
-            #emotion_text = get_emotion(emotion_label_arg)
-
             count += 1
-
-            #print("Image path: ", path)
-            #print("Emotion: ", emotion_text)
-
-            # Used for eye detection - not needed
-            #roi_color = img[y:y+h, x:x+w]
-            #eyes = eye_cascade.detectMultiScale(roi_gray)
-            #for (ex,ey,ew,eh) in eyes:
-            #   cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-
-        #cv2.imshow('img',img)

@@ -3,7 +3,7 @@ __pycache__
 frames/*
 detected_faces/*
 dataset/*
-utils.py
+venv/*
 
 .floydignore
 .floydexpt
