@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+    <div>
+        <h1>Face detection and emotion recognition</h1>
+        <img id="bg" src="{{ url_for('video_feed') }}">
+    </div>
+
+    <div>
+        <label for="emotion">Emotion:</label>
+        <p id="emotion">{{ url_for('get_emotion') }}</p>
+    </div>
+
+</body>
+</html>
