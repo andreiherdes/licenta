@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from keras.models import load_model
 from PIL import Image
-from utils import HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_PATH, get_emotion
+from utils import HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_V2_PATH, EMOTION_CLASSIFIER_PATH, get_emotion
 
 
 class VideoCamera(object):
@@ -45,12 +45,12 @@ class VideoCamera(object):
 
             prediction = self.emotion_classifier.predict(face)
 
-            print('Prediction: ', prediction)
             emotion_label_arg = np.argmax(prediction)
             emotion_text = get_emotion(emotion_label_arg)
 
-            print(emotion_text)
+            print('Prediction: ', prediction)
+            print('Emotion: ', emotion_text)
 
         # Encoding the image as JPG
         ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes(), emotion_text
+        return jpeg.tobytes()

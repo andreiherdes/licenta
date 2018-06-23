@@ -20,6 +20,11 @@ def create_class_weight(labels_dict,mu=0.15):
 
     return class_weight
 
+my_class_weight = {0: 4.,
+                   1: 1.,
+                   2: 1.,
+                   3: 4.,
+                   4: 4.}
 
 # labels_dict
 labels_dict = {0: 185, 1: 3669, 2: 4889, 3: 101, 4: 241}
@@ -31,7 +36,7 @@ train_data_dir = PATH_SORTED_DIRS + 'train'
 validation_data_dir = PATH_SORTED_DIRS + 'validation'
 nb_train_samples = 9085 #9109
 nb_validation_samples = 3642 #3653
-epochs = 100
+epochs = 250
 batch_size = 32
 
 if K.image_data_format() == 'channels_first':
@@ -101,7 +106,7 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size,
     callbacks=callbacks_list,
-    class_weight=create_class_weight(labels_dict))
+    class_weight=my_class_weight)
 
 
-model.save('/output/second_try.h5')
+model.save('/output/fifth_try.h5')

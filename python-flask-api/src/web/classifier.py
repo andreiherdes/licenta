@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from keras.models import load_model
 from PIL import Image
-from utils import HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_PATH, get_emotion
+from utils import HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_V2_PATH, EMOTION_CLASSIFIER_PATH, get_emotion
 import jsonpickle
 
 
@@ -62,6 +62,5 @@ class Classifier(object):
 
             my_image_object_list.append(current_face)
 
-        response = jsonpickle.encode(my_image_object_list)
-        return response
+        return my_image_object_list
 
