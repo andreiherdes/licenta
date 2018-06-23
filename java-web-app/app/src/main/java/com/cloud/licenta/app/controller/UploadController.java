@@ -17,15 +17,17 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Controller
 public class UploadController {
 
-	// Save the uploaded file to this folder
-	private static String UPLOADED_FOLDER = "E://temp//";
-
 	@Autowired
 	public UploadFileService uploadService;
 
 	@GetMapping("/")
-	public String index() {
+	public String upload() {
 		return "upload";
+	}
+
+	@GetMapping("/index")
+	public String index() {
+		return "index";
 	}
 
 	@PostMapping("/upload") // //new annotation since 4.3
