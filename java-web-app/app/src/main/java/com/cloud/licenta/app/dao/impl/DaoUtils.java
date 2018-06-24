@@ -13,7 +13,7 @@ public class DaoUtils {
 		user.setEmail(result.getString(User.FLD_EMAIL));
 		user.setFirstName(result.getString(User.FLD_FIRST_NAME));
 		user.setLastName(result.getString(User.FLD_LAST_NAME));
-		user.setPhoneNumber(result.getString(User.FLD_PHONE_NUMBER));
-
+		user.setPlan(result.getString(User.FLD_PLAN));
+		user.setOrganization(result.getBoolean(User.FLD_IS_ORGANIZATION));
 	}
 }

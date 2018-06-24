@@ -65,13 +65,13 @@ public class UserDaoImpl implements UserDao {
 		conn = CloudSqlConnection.INSTANCE.getConnection();
 
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + User.USER_TABLE + "(" + User.FLD_PASSWORD + ","
-				+ User.FLD_EMAIL + "," + User.FLD_FIRST_NAME + "," + User.FLD_LAST_NAME + "," + User.FLD_PHONE_NUMBER
+				+ User.FLD_EMAIL + "," + User.FLD_FIRST_NAME + "," + User.FLD_LAST_NAME + "," + User.FLD_IS_ORGANIZATION
 				+ ") VALUES (?,?,?,?,?)");
 		stmt.setString(1, passwordEncoder.encode(entity.getPassword()));
 		stmt.setString(2, entity.getEmail());
 		stmt.setString(3, entity.getFirstName());
 		stmt.setString(4, entity.getLastName());
-		stmt.setString(5, entity.getPhoneNumber());
+		stmt.setBoolean(5, entity.isOrganization());
 
 		stmt.executeUpdate();
 		conn.close();

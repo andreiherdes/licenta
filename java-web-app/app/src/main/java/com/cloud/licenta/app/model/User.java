@@ -9,23 +9,27 @@ public class User {
 	public final static String FLD_FIRST_NAME = "FIRSTNAME";
 	public final static String FLD_LAST_NAME = "LASTNAME";
 	public final static String FLD_EMAIL = "EMAIL";
-	public final static String FLD_PHONE_NUMBER = "PHONENUMBER";
+	public final static String FLD_PLAN = "USER_PLAN";
+	public final static String FLD_IS_ORGANIZATION = "IS_ORGANIZATION";
 
 	private Long id;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String phoneNumber;
+	private String plan;
+	private boolean isOrganization;
 
-	public User(Long id, String password, String email, String firstName, String lastName, String phoneNumber) {
+	public User(Long id, String password, String email, String firstName, String lastName, String plan,
+			boolean isOrganization) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
+		this.plan = plan;
+		this.isOrganization = isOrganization;
 	}
 
 	public User() {
@@ -34,7 +38,7 @@ public class User {
 		this.email = "";
 		this.firstName = "";
 		this.lastName = "";
-		this.phoneNumber = "";
+		this.isOrganization = false;
 	}
 
 	public String getPassword() {
@@ -77,18 +81,26 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getPlan() {
+		return plan;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
+
+	public boolean isOrganization() {
+		return isOrganization;
+	}
+
+	public void setOrganization(boolean isOrganization) {
+		this.isOrganization = isOrganization;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", phoneNumber=" + phoneNumber + "]";
+				+ ", email=" + email + ", plan=" + plan + ", isOrganization=" + isOrganization + "]";
 	}
 
 }

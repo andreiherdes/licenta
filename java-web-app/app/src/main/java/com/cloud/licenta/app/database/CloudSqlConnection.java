@@ -15,7 +15,7 @@ public class CloudSqlConnection {
 		sqlUrl = String.format(
 				"jdbc:mysql://google/%s?cloudSqlInstance=%s"
 						+ "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",
-				"CLOUDCOMPUTING", Credentials.INSTANCE_NAME);
+				"DB_SCHEMA", Credentials.INSTANCE_NAME);
 	}
 
 	public Connection getConnection() throws SQLException {

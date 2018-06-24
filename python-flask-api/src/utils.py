@@ -11,7 +11,7 @@ PATH_OUTPUT = os.path.join(my_path, '..\\detected_faces\\' + str(now.day) + '-' 
 # google cloud stuff
 # HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_PATH
 HAARCASCADE_FRONTALFACE_XML_PATH = os.path.join(my_path, "..\\xml_cascades\\haarcascade_frontalface_default.xml")
-EMOTION_CLASSIFIER_PATH = os.path.join(my_path, "..\\trained-models\\v3\\less-classes.h5")
+EMOTION_CLASSIFIER_PATH = os.path.join(my_path, "..\\trained-models\\v5\\fifth_try.h5")
 EMOTION_CLASSIFIER_V2_PATH = os.path.join(my_path, "..\\trained-models\\v2\\second_try.h5")
 
 #keras_floyd_nn.py constants

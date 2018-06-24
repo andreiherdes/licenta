@@ -18,13 +18,11 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloud.licenta.app.service.UploadFileService;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 @SuppressWarnings("deprecation")
 @Service(value = "uploadService")
@@ -35,7 +33,7 @@ public class UploadFileServiceImpl implements UploadFileService {
 	 * response object
 	 * 
 	 * @param requestBase
-	 *            the request that needs to be exeuted
+	 *            the request that needs to be executed
 	 * @return server response as <code>String</code>
 	 */
 	@SuppressWarnings("resource")
@@ -103,62 +101,42 @@ public class UploadFileServiceImpl implements UploadFileService {
 	 *            some description for the file, just to show how to add the usual
 	 *            form parameters
 	 * @return server response as <code>String</code>
-	 * @throws UnirestException
 	 * @throws IOException
 	 * @throws IllegalStateException
 	 */
 	@Override
 	public String executeMultiPartRequest(String urlString, MultipartFile file, String fileName, String fileDescription)
-			throws UnirestException, IllegalStateException, IOException {
+			throws IllegalStateException, IOException {
 
 		HttpPost postRequest = new HttpPost(urlString);
 
-		File convertedFile = convert(file);
+		File convertedFile = multipartToFile(file, file.getOriginalFilename());
 
 		FileBody fileBody = new FileBody(convertedFile, ContentType.create("multipart/form-data", Consts.UTF_8));
-		//StringBody stringBody1 = new StringBody("LOL SA TI DAU LABOGA 1", ContentType.MULTIPART_FORM_DATA);
-		//StringBody stringBody2 = new StringBody("LOL SA TI DAU LABOGA 2", ContentType.MULTIPART_FORM_DATA);
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 		builder.addPart("photo", fileBody);
-		//builder.addPart("text1", stringBody1);
-		//builder.addPart("text2", stringBody2);
 		HttpEntity entity = builder.build();
 		postRequest.setEntity(entity);
-		return executeRequest(postRequest);
 
-		/*
-		 * final byte[] bytes = file.getBytes(); final
-		 * com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse =
-		 * Unirest.post(urlString) .header("Content-type", "raw").field("photo",
-		 * bytes).asJson();
-		 * 
-		 * com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse =
-		 * Unirest.post(urlString) .header("Content-type",
-		 * 
-		 * "multipart/form-data").header("accept", "application/json").field("photo",
-		 * file) .asJson();
-		 * 
-		 * return jsonResponse.getBody().toString();
-		 */
+		String response = executeRequest(postRequest);
+		// convertedFile.delete();
+		return response;
 	}
 
 	private static File convert(MultipartFile file) throws IOException {
 		File convFile = new File(file.getOriginalFilename());
-		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());
 		fos.close();
 		return convFile;
 	}
 
-	/*
-	 * public static void main(String args[]){ SampleFileUpload fileUpload = new
-	 * SampleFileUpload () ; File file = new File ("Hydrangeas.jpg") ;
-	 * 
-	 * String response = fileUpload.executeMultiPartRequest("<Request URL>", file,
-	 * file.getName(), "File Upload test Hydrangeas.jpg description") ;
-	 * System.out.println("Response : "+response); }
-	 */
+	private static File multipartToFile(MultipartFile multipart, String fileName)
+			throws IllegalStateException, IOException {
+		File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + fileName);
+		multipart.transferTo(convFile);
+		return convFile;
+	}
 
 }

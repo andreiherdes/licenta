@@ -4,9 +4,9 @@ public class Register {
 
 	private String firstName;
 	private String lastName;
-	private String birthDate;
 	private String emailReg;
 	private String passwordReg;
+	private boolean isOrganization;
 
 	public String getFirstName() {
 		return firstName;
@@ -24,14 +24,6 @@ public class Register {
 		this.lastName = lastName;
 	}
 
-	public String getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
-	}
-
 	public String getEmailReg() {
 		return emailReg;
 	}
@@ -46,6 +38,14 @@ public class Register {
 
 	public void setPasswordReg(String passwordReg) {
 		this.passwordReg = passwordReg;
+	}
+
+	public boolean isOrganization() {
+		return isOrganization;
+	}
+
+	public void setOrganization(boolean isOrganization) {
+		this.isOrganization = isOrganization;
 	}
 
 }

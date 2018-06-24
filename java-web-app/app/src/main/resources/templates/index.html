@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -21,10 +21,137 @@
 
 <body>
 
+	<!-- Modal for Register -->
+	<div class="modal right fade" id="registerModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel2">Register</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- modal -->
+				<div class="modal-body">
+					<form class="validate-formReg" action="#" th:action="@{/register}"
+						th:object="${register}" method="post">
+
+						<div class="wrap-input100">
+							<input class="input100Reg" type="text" name="register_first_name"
+								th:field="*{firstName}"> <span class="focus-input100"></span>
+							<span class="label-input100">Your name..</span>
+						</div>
+
+
+						<div class="wrap-input100">
+							<input class="input100Reg" type="text" name="register_last_name"
+								th:field="*{lastName}"> <span class="focus-input100"></span>
+							<span class="label-input100">Last Name</span>
+						</div>
+
+						<div class="wrap-input100 validate-inputReg">
+							<input class="input100Reg" type="text" name="emailReg"
+								th:field="*{email}"> <span class="focus-input100"></span>
+							<span class="label-input100">Email</span>
+						</div>
+
+						<div class="wrap-input100 validate-inputReg"
+							data-validate="Password is required">
+							<input class="input100Reg" type="password" name="register_passwd"
+								th:field="*{password}"> <span class="focus-input100"></span>
+							<span class="label-input100">Password</span>
+						</div>
+
+						<div class="wrap-input100 validate-inputReg"
+							data-validate="Password is required">
+							<input class="input100Reg" type="password"
+								name="register_repasswd"> <span class="focus-input100"></span>
+							<span class="label-input100">Retype password..</span>
+						</div>
+
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox"
+								name=is-organization> <label class="label-checkbox100"
+								for="ckb1"> Are you an organization? </label>
+						</div>
+
+						<div class="container-login100-form-btn">
+							<input name="registerButton"
+								class="login100-form-btn btn btn-primary btn-lg" type="submit"
+								value="Register" />
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<p>Licenta 2018</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End modal -->
+
+	<!-- Modal for Login -->
+	<div class="modal right fade" id="loginModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel2">Login</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- modal -->
+				<div class="modal-body">
+					<form class="validate-form" th:action="@{/login}"
+						th:object="${login}" method="post">
+						<div class="wrap-input100 validate-input"
+							data-validate="Valid email is required: ex@abc.xyz">
+							<input id="loginEmail" class="input100" type="text" name="email"
+								th:field="*{email}"> <span class="focus-input100"></span>
+							<span class="label-input100">Email</span>
+						</div>
+
+
+						<div class="wrap-input100 validate-input"
+							data-validate="Password is required">
+							<input id="loginPassword" class="input100" type="password"
+								name="pass" th:field="*{password}"> <span
+								class="focus-input100"></span> <span class="label-input100">Password</span>
+						</div>
+
+						<div class="flex-sb-m w-full p-t-3 p-b-32">
+							<div>
+								<a href="#" class="txt1"> Forgot Password? </a>
+							</div>
+						</div>
+
+						<div class="container-login100-form-btn">
+							<input class="login100-form-btn btn btn-primary btn-lg"
+								type="submit" name="loginButton" value="Login" />
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<p>Licenta 2018</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- End modal -->
+
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Face and emotion recognition API</a>
+			<a class="navbar-brand" href="#">Emotion recognition API</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -51,8 +178,7 @@
 		<!-- Heading Row -->
 		<div class="row my-4">
 			<div class="col-lg-8">
-				<a class="navbar-branda" href="index"> <img
-					class="img-fluid"
+				<a class="navbar-branda" href="index"> <img class="img-fluid"
 					src="../images/eyeglasses-1245879_1280.jpg" alt="logo" />
 				</a>
 			</div>
@@ -62,7 +188,9 @@
 				<p>Your business needs a boost, so don't hesitate to contact us!
 					Our face detection and emotion recognition APIs can be easily
 					integrated in any system!</p>
-				<a class="btn btn-primary btn-lg" href="#">Register</a>
+				<a class="btn btn-primary btn-lg" href="#" data-toggle="modal"
+					data-target="#registerModal">Register</a>
+				<p th:text="${message}"></p>
 			</div>
 			<!-- /.col-md-4 -->
 		</div>
@@ -71,18 +199,21 @@
 		<!-- Call to Action Well -->
 		<div class="card text-white bg-secondary my-4 text-center">
 			<div class="card-body">
-				<p class="text-white m-0">Ads analytics with customer feedback has never been more simple! Test our services today!</p>
+				<p class="text-white m-0">
+					Already a member? <a href="#" class="text-white m-0"
+						data-toggle="modal" data-target="#loginModal"> Log in </a>
+				</p>
 			</div>
 		</div>
- 
+
 	</div>
 	<!-- /.container -->
 
 	<!-- Footer -->
 	<footer class="py-5 bg-dark">
 		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Andrei Herdes 
-			Licenta 2018</p>
+			<p class="m-0 text-center text-white">Copyright &copy; Andrei
+				Herdes Licenta 2018</p>
 		</div>
 		<!-- /.container -->
 	</footer>
@@ -90,6 +221,7 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="../vendor/jquery/jquery.min.js"></script>
 	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../vendor/jquery/main.js"></script>
 
 </body>
 

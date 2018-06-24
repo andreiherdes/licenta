@@ -7,7 +7,6 @@ import numpy as np
 import cv2
 import io
 import keras.backend as K
-import ast
 
 @app.route('/index')
 def index():
