@@ -9,6 +9,8 @@ import math
 #constants
 PATH_SORTED_DIRS = '/dataset/'
 
+num_classes = 5
+
 def create_class_weight(labels_dict,mu=0.15):
     total = 9085
     keys = labels_dict.keys()
@@ -36,7 +38,7 @@ train_data_dir = PATH_SORTED_DIRS + 'train'
 validation_data_dir = PATH_SORTED_DIRS + 'validation'
 nb_train_samples = 9085 #9109
 nb_validation_samples = 3642 #3653
-epochs = 250
+epochs = 100
 batch_size = 32
 
 if K.image_data_format() == 'channels_first':
@@ -47,22 +49,22 @@ else:
 model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
+model.add(Conv2D(32, (3, 3)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
 
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
 model.add(Conv2D(64, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
 
 model.add(Flatten())
-model.add(Dense(64))
+model.add(Dense(512))
 model.add(Activation('relu'))
-model.add(Dense(1200))
 model.add(Dropout(0.5))
-model.add(Dense(5))
+model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy',
@@ -106,7 +108,7 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size,
     callbacks=callbacks_list,
-    class_weight=my_class_weight)
+    class_weight=labels_dict)
 
 
-model.save('/output/fifth_try.h5')
+model.save('/output/sixth_try.h5')

@@ -75,7 +75,6 @@ public class UserDaoImpl implements UserDao {
 
 		stmt.executeUpdate();
 		conn.close();
-
 	}
 
 	@Override

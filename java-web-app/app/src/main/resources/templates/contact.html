@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="WebApp template">
+<meta name="author" content="Andrei Herdes">
+
+<title>EmoAPI</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../css/small-business.css" rel="stylesheet">
+<link href="../css/contact.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- Navigation -->
+	<div th:replace="index :: header">placeholder</div>
+
+	<!-- Page Content -->
+	<div class="container">
+		<div class="wrap-login100">
+			<div class="login100-form" style="padding-top: 2em;">
+				<form method="post" th:action="@{/contact/sendEmail}"
+					th:object="${contact}">
+					<h4>For any inquiries, drop us a line</h4>
+					<div th:if="${message}">
+						<p th:text="${message}" />
+					</div>
+					<input class="contact-input" type="text" id="fname"
+						name="firstname" placeholder="Your first name.."
+						th:field="*{firstName}"> <input class="contact-input"
+						type="text" id="lname" name="lastname"
+						placeholder="Your last name.." th:field="*{lastName}"> <input
+						class="contact-input" type="text" id="email" name="email"
+						placeholder="Your email address.." th:field="*{email}">
+					<textarea class="text-area" id="subject" name="subject"
+						placeholder="Get in touch!" style="height: 300px; resize: none;"
+						th:field="*{text}"></textarea>
+					<div style="text-align: center">
+						<input type="submit" class="btn btn-primary btn-lg" value="Submit">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="index :: footer">placeholder</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="../vendor/jquery/jquery.min.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../vendor/jquery/main.js"></script>
+</body>
+
+</html>

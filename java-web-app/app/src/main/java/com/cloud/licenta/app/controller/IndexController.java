@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -60,9 +61,13 @@ public class IndexController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String loadIndex() {
-		System.out.println(userSession.getLoggedInUser());
-		return userSession.isUserLoggedIn() ? "redirect:/mainpage" : "index";
+	public String loadIndex(Model model, HttpServletRequest request) throws SQLException {
+		if (userSession.isUserLoggedIn()) {
+			model.addAttribute("sessionUserName", userSession.getLoggedInUser().getFirstName());
+			return "redirect:/mainpage";
+		}
+		model.addAttribute("sessionUserName", null);
+		return "index";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -73,9 +78,6 @@ public class IndexController {
 				User user = userService.processLogin(login.getEmail(), login.getPassword());
 				if (user.getId() > 0) {
 					userSession.setLoggedInUser(user);
-					System.out.println("Logged in: " + userSession.isUserLoggedIn());
-					System.out.println(userSession.getLoggedInUser());
-					// attributes.addAttribute(user.getFirstName());
 					return new RedirectView("mainpage");
 				} else {
 					attributes.addFlashAttribute("message", "Invalid credentials");
@@ -99,6 +101,7 @@ public class IndexController {
 		if (!result.hasErrors()) {
 			try {
 				userService.processRegister(user);
+				attributes.addFlashAttribute("message", "Account created, you can now log in!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

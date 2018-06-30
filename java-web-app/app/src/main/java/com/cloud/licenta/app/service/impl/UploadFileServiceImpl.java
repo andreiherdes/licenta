@@ -124,6 +124,23 @@ public class UploadFileServiceImpl implements UploadFileService {
 		return response;
 	}
 
+	public String testExecutePostFile(String urlString, File file, String fileName, String fileDescription)
+			throws IllegalStateException, IOException {
+
+		HttpPost postRequest = new HttpPost(urlString);
+
+		FileBody fileBody = new FileBody(file, ContentType.create("multipart/form-data", Consts.UTF_8));
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		builder.addPart("photo", fileBody);
+		HttpEntity entity = builder.build();
+		postRequest.setEntity(entity);
+
+		String response = executeRequest(postRequest);
+		// convertedFile.delete();
+		return response;
+	}
+
 	private static File convert(MultipartFile file) throws IOException {
 		File convFile = new File(file.getOriginalFilename());
 		FileOutputStream fos = new FileOutputStream(convFile);

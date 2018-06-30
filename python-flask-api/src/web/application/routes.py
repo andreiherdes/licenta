@@ -8,6 +8,8 @@ import cv2
 import io
 import keras.backend as K
 
+myClassifier = Classifier()
+
 @app.route('/index')
 def index():
     return render_template('index.html')
@@ -29,6 +31,7 @@ def video_feed():
 # route http posts to this method
 @app.route('/predict_image', methods=['POST'])
 def predictImage():
+    global myClassifier
     r = request
 
     photo = r.files['photo']
@@ -39,12 +42,7 @@ def predictImage():
     nparray = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
     img = cv2.imdecode(nparray, cv2.IMREAD_COLOR)
 
-    myClassifier = Classifier()
+    # encode response using jsonpickle
     response = myClassifier.classify_image(image=img)
 
-    # encode response using jsonpickle
-    response_pickled = jsonpickle.encode(response)
-
-    K.clear_session()
-
-    return Response(response=response_pickled, status=200, mimetype="application/json")
+    return Response(response=response, status=200, mimetype="application/json")

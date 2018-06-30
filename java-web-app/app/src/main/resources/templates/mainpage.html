@@ -21,33 +21,9 @@
 </head>
 
 <body>
-	<!-- End modal -->
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Face and emotion recognition API</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarResponsive" aria-controls="navbarResponsive"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">Home
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
-					</li>
-					<li class="nav-item"><form name="logoutForm"
-							th:action="@{/logout}" method="post">
-							<input class="btn btn-primary btn-sm" type="submit"
-								value="Log out" />
-						</form></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div th:replace="index :: header">placeholder</div>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -69,7 +45,7 @@
 			<div class="col-lg-8">
 				<div class="card-body">
 					<div th:if="${message}">
-						<h4 th:text="${message}" />
+						<p th:text="${message}" />
 					</div>
 				</div>
 			</div>
@@ -82,7 +58,7 @@
 		<div class="card text-white bg-secondary my-4 text-center">
 			<div class="card-body">
 				<p class="text-white m-0">If you enjoy the results, choose the
-					option that suits you best and get your API key right now!</p>
+					option that suits you best and start using our API from anywhere!</p>
 			</div>
 		</div>
 
@@ -95,9 +71,15 @@
 						<p class="card-text">Free API use, community support. Capped
 							at 200 requests per day.</p>
 					</div>
+
 					<div class="card-footer">
-						<a href="#" class="btn btn-primary">More Info</a>
+						<form th:action="@{/mainpage/generateKey}" method="post">
+							<input type="hidden" th:name="plan" value="1" />
+							<button class="btn btn-primary" type="submit">Get your
+								key!</button>
+						</form>
 					</div>
+
 				</div>
 			</div>
 			<!-- /.col-md-4 -->
@@ -106,12 +88,15 @@
 					<div class="card-body">
 						<h2 class="card-title">Business</h2>
 						<p class="card-text">1000€/month</p>
-						<p class="card-text">Includes email support during working
-							hours and our dataset for research purposes. The service is
-							capped at 500,000 transactions per day.</p>
+						<p class="card-text">Includes email support during working.
+							The service is capped at 500,000 transactions per day.</p>
 					</div>
 					<div class="card-footer">
-						<a href="#" class="btn btn-primary">More Info</a>
+						<form th:action="@{/mainpage/generateKey}" method="post">
+							<input type="hidden" th:name="plan" value="2" />
+							<button class="btn btn-primary" type="submit">Get your
+								key!</button>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -122,10 +107,14 @@
 						<h2 class="card-title">Enterprise</h2>
 						<p class="card-text">3000€/month</p>
 						<p class="card-text">Includes 24/7 premium support, our
-							dataset for research purposes and unlimited API usage</p>
+							dataset for research purposes and unlimited API usage.</p>
 					</div>
 					<div class="card-footer">
-						<a href="#" class="btn btn-primary">More Info</a>
+						<form th:action="@{/mainpage/generateKey}" method="post">
+							<input type="hidden" th:name="plan" value="3" />
+							<button class="btn btn-primary" type="submit">Get your
+								key!</button>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -133,14 +122,9 @@
 		</div>
 	</div>
 	<!-- /.row -->
+
 	<!-- Footer -->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Andrei
-				Herdes Licenta 2018</p>
-		</div>
-		<!-- /.container -->
-	</footer>
+	<div th:replace="index :: footer">placeholder</div>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="../vendor/jquery/jquery.min.js"></script>

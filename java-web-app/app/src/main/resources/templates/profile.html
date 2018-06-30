@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description"
+	content="Web App for our emotion recognition api">
+<meta name="author" content="Andrei Herdes">
+
+<title>EmoAPI</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../css/small-business.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<div th:replace="index :: header">placeholder</div>
+
+	<!-- Page Content -->
+	<div class="container">
+		<h2>
+			<span th:text="${sessionUserName}"> </span>
+		</h2>
+		<div class="col-lg-4">
+			<h4>Your API details</h4>
+			<label for="apiKey">Key</label>
+			<p id="apiKey" th:text="${key}" />
+			<label for="remainingRequests">Remaining requests</label>
+			<p id="remainingRequests" th:text="${remainingReq}">
+				<label for="currentPlan">Current plan</label>
+			<p id="currentPlan" th:text="${currPlan}">
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="index :: footer">placeholder</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="../vendor/jquery/jquery.min.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

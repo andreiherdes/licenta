@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cloud.licenta.app.dao.UserDao;
+import com.cloud.licenta.app.dao.UserPlanDao;
 import com.cloud.licenta.app.model.User;
+import com.cloud.licenta.app.model.UserPlan;
 import com.cloud.licenta.app.service.UserService;
 
 @Service(value = "userService")
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private UserPlanDao userPlanDao;
 
 	@Override
 	public User getById(Long id) throws SQLException {
@@ -44,7 +49,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User processLogin(String email, String password) throws SQLException {
-		return userDao.getByCredentials(password, email);
+		User user = userDao.getByCredentials(password, email);
+		if (user.getId() > 0) {
+			Long userId = user.getId();
+			UserPlan userPlan = userPlanDao.getByUserId(userId);
+			user.setUserPlan(userPlan);
+		}
+		return user;
 	}
 
 }

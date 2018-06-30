@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
+<meta name="description" content="WebApp template">
 <meta name="author" content="Andrei Herdes">
 
 <title>EmoAPI</title>
@@ -36,7 +36,7 @@
 				</div>
 				<!-- modal -->
 				<div class="modal-body">
-					<form class="validate-formReg" action="#" th:action="@{/register}"
+					<form class="validate-formReg" th:action="@{/register}"
 						th:object="${register}" method="post">
 
 						<div class="wrap-input100">
@@ -149,9 +149,10 @@
 	<!-- End modal -->
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+	<nav th:fragment="header"
+		class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Emotion recognition API</a>
+			<a class="navbar-brand" href="/">Emotion recognition API</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -159,14 +160,20 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">Home
+					<li class="nav-item active"><a class="nav-link" href="/">Home
 							<span class="sr-only">(current)</span>
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Services</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
-					</li>
+					<li th:unless="${sessionUserName}" class="nav-item"><a
+						class="nav-link" href="about">About</a></li>
+					<li th:if="${sessionUserName}" class="nav-item"><a
+						class="nav-link" href="profile">Profile</a></li>
+					<li class="nav-item"><a th:unless="${sessionUserName}"
+						class="nav-link" href="contact">Contact</a></li>
+					<li th:if="${sessionUserName}" class="nav-item"><form
+							name="logoutForm" th:action="@{/logout}" method="post">
+							<input class="btn btn-primary btn-sm" type="submit"
+								value="Log out" />
+						</form></li>
 				</ul>
 			</div>
 		</div>
@@ -178,7 +185,7 @@
 		<!-- Heading Row -->
 		<div class="row my-4">
 			<div class="col-lg-8">
-				<a class="navbar-branda" href="index"> <img class="img-fluid"
+				<a class="navbar-branda" href="/"> <img class="img-fluid"
 					src="../images/eyeglasses-1245879_1280.jpg" alt="logo" />
 				</a>
 			</div>
@@ -190,7 +197,7 @@
 					integrated in any system!</p>
 				<a class="btn btn-primary btn-lg" href="#" data-toggle="modal"
 					data-target="#registerModal">Register</a>
-				<p th:text="${message}"></p>
+				<h3 style="margin-top: 2em; color: red" th:text="${message}"></h3>
 			</div>
 			<!-- /.col-md-4 -->
 		</div>
@@ -210,7 +217,7 @@
 	<!-- /.container -->
 
 	<!-- Footer -->
-	<footer class="py-5 bg-dark">
+	<footer th:fragment="footer" class="py-5 bg-dark">
 		<div class="container">
 			<p class="m-0 text-center text-white">Copyright &copy; Andrei
 				Herdes Licenta 2018</p>

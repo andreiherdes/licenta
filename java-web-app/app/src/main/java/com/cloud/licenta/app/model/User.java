@@ -9,7 +9,6 @@ public class User {
 	public final static String FLD_FIRST_NAME = "FIRSTNAME";
 	public final static String FLD_LAST_NAME = "LASTNAME";
 	public final static String FLD_EMAIL = "EMAIL";
-	public final static String FLD_PLAN = "USER_PLAN";
 	public final static String FLD_IS_ORGANIZATION = "IS_ORGANIZATION";
 
 	private Long id;
@@ -17,8 +16,8 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String plan;
 	private boolean isOrganization;
+	private UserPlan userPlan;
 
 	public User(Long id, String password, String email, String firstName, String lastName, String plan,
 			boolean isOrganization) {
@@ -28,7 +27,6 @@ public class User {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.plan = plan;
 		this.isOrganization = isOrganization;
 	}
 
@@ -39,6 +37,7 @@ public class User {
 		this.firstName = "";
 		this.lastName = "";
 		this.isOrganization = false;
+		this.userPlan = new UserPlan();
 	}
 
 	public String getPassword() {
@@ -81,14 +80,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getPlan() {
-		return plan;
-	}
-
-	public void setPlan(String plan) {
-		this.plan = plan;
-	}
-
 	public boolean isOrganization() {
 		return isOrganization;
 	}
@@ -97,10 +88,18 @@ public class User {
 		this.isOrganization = isOrganization;
 	}
 
+	public UserPlan getUserPlan() {
+		return userPlan;
+	}
+
+	public void setUserPlan(UserPlan userPlan) {
+		this.userPlan = userPlan;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", plan=" + plan + ", isOrganization=" + isOrganization + "]";
+				+ ", email=" + email + ", isOrganization=" + isOrganization + ", userPlan=" + userPlan + "]";
 	}
 
 }
