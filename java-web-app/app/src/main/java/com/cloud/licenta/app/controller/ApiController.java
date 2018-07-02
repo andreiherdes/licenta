@@ -1,5 +1,7 @@
 package com.cloud.licenta.app.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cloud.licenta.app.component.ApiSession;
 import com.cloud.licenta.app.dao.UserPlanDao;
 import com.cloud.licenta.app.model.UserPlan;
 import com.cloud.licenta.app.service.UploadFileService;
@@ -27,7 +30,16 @@ public class ApiController {
 	@RequestMapping(method = RequestMethod.POST, value = "/emoApi/{key}", produces = "application/json")
 	public ResponseEntity<?> singleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable("key") String key)
 			throws Exception {
-		UserPlan userPlan = userPlanDao.isApiEnabled(key);
+		Optional<UserPlan> result = ApiSession.INSTANCE.getUserPlans().stream().filter(x -> x.getApiKey().equals(key))
+				.findAny();
+		UserPlan userPlan = null;
+		if (result.isPresent()) {
+			userPlan = result.get();
+		} else {
+			userPlan = userPlanDao.isApiEnabled(key);
+			ApiSession.INSTANCE.getUserPlans().add(userPlan);
+		}
+
 		if (userPlan.getId() == 0 || userPlan.getRequestsRemaining() <= 0) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
@@ -38,7 +50,7 @@ public class ApiController {
 		String response = uploadService.executeMultiPartRequest(Credentials.API_URI, file, file.getName(),
 				"Send flask api TEST");
 		if (!userPlan.getApiType().equals("Enterprise") || !response.contains("number_of_faces: 0")) {
-			userPlanDao.performRequestsRemainingUpdate(userPlan.getRequestsRemaining(), userPlan.getApiKey());
+			userPlan.setRequestsRemaining(userPlan.getRequestsRemaining() - 1);
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

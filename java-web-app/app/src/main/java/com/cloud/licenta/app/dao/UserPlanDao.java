@@ -23,4 +23,6 @@ public interface UserPlanDao {
 
 	public List<Long> getUserPlansWithLowRequestsRemaining() throws SQLException;
 
+	public void performRequestsRemainingUpdate(List<UserPlan> userPlans) throws Exception;
+
 }

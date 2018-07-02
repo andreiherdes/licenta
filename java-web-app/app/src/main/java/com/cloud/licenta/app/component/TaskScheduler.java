@@ -23,7 +23,7 @@ public class TaskScheduler {
 
 	// Daily task for usage updates
 	@Scheduled(cron = "0 5 0 * * *")
-	public void refreshRequestsRemaining() {
+	public void refreshDailyQuotaOfRequests() {
 		try {
 			userPlanDao.performBatchUpdate();
 		} catch (Exception e) {
@@ -43,7 +43,20 @@ public class TaskScheduler {
 						"Hello! This mail has been sent automatically, as you are running low on requests! Your API usage will be suspended, contact us for more details.");
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
+	}
+
+	@Scheduled(cron = "0 30 * * * *")
+	public void clearApiSession() {
+		if (!ApiSession.INSTANCE.getUserPlans().isEmpty()) {
+			try {
+				userPlanDao.performRequestsRemainingUpdate(ApiSession.INSTANCE.getUserPlans());
+				ApiSession.INSTANCE.getUserPlans().clear();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

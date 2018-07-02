@@ -1,23 +1,22 @@
 package com.cloud.licenta.app.component;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cloud.licenta.app.model.UserPlan;
 
-@Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ApiSession {
 
-	private UserPlan userPlan;
+	public final static ApiSession INSTANCE = new ApiSession();
 
-	public UserPlan getUserPlan() {
-		return userPlan;
+	private List<UserPlan> userPlans;
+
+	private ApiSession() {
+		userPlans = new ArrayList<>();
 	}
 
-	public void setUserPlan(UserPlan userPlan) {
-		this.userPlan = userPlan;
+	public List<UserPlan> getUserPlans() {
+		return userPlans;
 	}
 
 }

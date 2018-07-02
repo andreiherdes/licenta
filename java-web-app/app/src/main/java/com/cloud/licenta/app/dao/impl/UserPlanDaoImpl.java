@@ -147,7 +147,40 @@ public class UserPlanDaoImpl implements UserPlanDao {
 				stmt.close();
 			}
 		}
+	}
 
+	@Override
+	public void performRequestsRemainingUpdate(List<UserPlan> userPlans) throws Exception {
+		PreparedStatement stmt = null;
+		try {
+			conn = CloudSqlConnection.INSTANCE.getConnection();
+
+			conn.setAutoCommit(false);
+
+			stmt = conn.prepareStatement("UPDATE " + UserPlan.USERPLAN_TABLE + " SET " + UserPlan.FLD_REQUESTS_REMAINING
+					+ " = ? WHERE " + UserPlan.FLD_USERPLAN_ID + " = ?");
+
+			for (UserPlan userPlan : userPlans) {
+				stmt.setLong(1, userPlan.getRequestsRemaining());
+				stmt.setLong(2, userPlan.getId());
+				stmt.addBatch();
+			}
+
+			stmt.executeBatch();
+
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new Exception("Transaction failed!", e);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
 	}
 
 	@Override
