@@ -54,8 +54,8 @@ public class MainPageController {
 	}
 
 	@PostMapping("/generateKey")
-	public String singleFileUpload(@RequestParam("plan") String plan, RedirectAttributes redirectAttributes)
-			throws IllegalStateException, IOException, SQLException {
+	public String generateKey(@RequestParam("plan") String plan, RedirectAttributes redirectAttributes)
+			throws Exception {
 		if (userSession.getLoggedInUser().getUserPlan().getId() == 0) {
 			UserPlan userPlan = new UserPlan(userSession.getLoggedInUser().getId());
 			if (plan.equals("1")) {

@@ -3,9 +3,10 @@ import numpy as np
 from keras.models import load_model
 from PIL import Image
 from utils import HAARCASCADE_FRONTALFACE_XML_PATH, EMOTION_CLASSIFIER_V2_PATH, EMOTION_CLASSIFIER_PATH, get_emotion
+import tensorflow as tf
 
 
-class VideoCamera(object):
+class VideoCameraLocal(object):
     def __init__(self):
         # Using OpenCV to capture from device 0. If you have trouble capturing
         # from a webcam, comment the line below out and use a video file
@@ -14,6 +15,7 @@ class VideoCamera(object):
         self.face_detection_model = cv2.CascadeClassifier(HAARCASCADE_FRONTALFACE_XML_PATH)
         self.emotion_classifier = load_model(EMOTION_CLASSIFIER_PATH, compile=False)
         self.emotion_target_size = self.emotion_classifier.input_shape[1:3]
+        self.graph = tf.get_default_graph()
 
     def __del__(self):
         self.video.release()
@@ -43,13 +45,18 @@ class VideoCamera(object):
                 print(e)
                 continue
 
-            prediction = self.emotion_classifier.predict(face)
+            with self.graph.as_default():
+                prediction = self.emotion_classifier.predict(face)
 
             emotion_label_arg = np.argmax(prediction)
             emotion_text = get_emotion(emotion_label_arg)
 
-            print('Prediction: ', prediction)
-            print('Emotion: ', emotion_text)
+            fontScale = 1
+            fontColor = (255, 255, 255)
+            lineType = 2
+            cv2.putText(image, emotion_text, (x + 40, y + 40),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        int(fontScale), fontColor, int(lineType), cv2.LINE_AA)
 
         # Encoding the image as JPG
         ret, jpeg = cv2.imencode('.jpg', image)

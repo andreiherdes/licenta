@@ -2,6 +2,7 @@ package com.cloud.licenta.app.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,17 @@ public class UserServiceImpl implements UserService {
 			user.setUserPlan(userPlan);
 		}
 		return user;
+	}
+
+	@Override
+	public List<String> getEmailsFilteredByUserId(List<Long> ids) throws SQLException {
+		List<User> users = userDao.getAll();
+
+		List<String> filteredUsers = users.stream().filter(x -> ids.contains(x.getId())).map(User::getEmail)
+				.collect(Collectors.toList());
+
+		return filteredUsers;
+
 	}
 
 }

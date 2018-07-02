@@ -6,4 +6,6 @@ public class Credentials {
 	public static final String USERNAME = "root";
 	public static final String PASSWORD = "1234";
 
+	public static final String API_URI = "http://emotion-detection-api.appspot.com/predict_image";
+
 }

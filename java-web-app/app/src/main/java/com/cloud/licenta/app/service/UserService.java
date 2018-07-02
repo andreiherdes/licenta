@@ -16,4 +16,6 @@ public interface UserService {
 	User processLogin(String email, String password) throws SQLException;
 
 	void deleteById(long id) throws SQLException;
+
+	List<String> getEmailsFilteredByUserId(List<Long> ids) throws SQLException;
 }

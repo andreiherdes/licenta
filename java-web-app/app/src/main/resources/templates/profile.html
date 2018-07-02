@@ -26,18 +26,30 @@
 	<div th:replace="index :: header">placeholder</div>
 
 	<!-- Page Content -->
-	<div class="container">
-		<h2>
-			<span th:text="${sessionUserName}"> </span>
-		</h2>
-		<div class="col-lg-4">
-			<h4>Your API details</h4>
-			<label for="apiKey">Key</label>
-			<p id="apiKey" th:text="${key}" />
-			<label for="remainingRequests">Remaining requests</label>
-			<p id="remainingRequests" th:text="${remainingReq}">
-				<label for="currentPlan">Current plan</label>
-			<p id="currentPlan" th:text="${currPlan}">
+	<div class="container" style="margin-bottom: 13em; margin-top: 5em;">
+		<div class="row my-4">
+			<div class="col-lg-6">
+				<h4>
+					Here you can see your API details, <span
+						th:text="${sessionUserName}"> </span>
+				</h4>
+				<label style="font-weight: bold;" for="apiKey">Key</label>
+				<p id="apiKey" th:text="${key}" />
+				<label style="font-weight: bold;" for="remainingRequests">Remaining
+					requests</label>
+				<p id="remainingRequests" th:text="${remainingReq}" />
+				<label style="font-weight: bold;" for="currentPlan">Current
+					plan</label>
+				<p id="currentPlan" th:text="${currPlan}" />
+			</div>
+			<div class="col-lg-6">
+				<label style="font-weight: bold;" for="endpoint">Your
+					endpoint</label>
+				<p id="endpoint">
+					http://spring-boot-webapp.appspot.com/emoApi/<span
+						th:text="${key}"></span>
+				</p>
+			</div>
 		</div>
 	</div>
 

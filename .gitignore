@@ -4,6 +4,7 @@ frames/*
 detected_faces/*
 dataset/*
 venv/*
+python-flask-api/trained-models/v6/*
 
 .floydignore
 .floydexpt

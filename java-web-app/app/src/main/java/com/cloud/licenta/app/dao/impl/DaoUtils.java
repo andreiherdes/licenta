@@ -20,7 +20,8 @@ public class DaoUtils {
 	static void loadUserPlan(ResultSet result, UserPlan userPlan) throws SQLException {
 		userPlan.setId(result.getLong(UserPlan.FLD_USERPLAN_ID));
 		userPlan.setApiKey(result.getString(UserPlan.FLD_API_KEY));
-		userPlan.setRequestsRemaining(result.getLong(UserPlan.FLD_REQUESTS_REMAINING));
 		userPlan.setUserId(result.getLong(UserPlan.FLD_FK_USER_ID));
+		userPlan.setApiType(result.getString(UserPlan.FLD_API_TYPE));
+		userPlan.setRequestsRemaining(result.getLong(UserPlan.FLD_REQUESTS_REMAINING));
 	}
 }
