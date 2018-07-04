@@ -8,7 +8,7 @@ class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
         self.addr = 'http://spring-boot-webapp.appspot.com'
-        self.apiKey = '/emoApi/aaa8fb99-544a-4eba-a9c3-bbc7f6a09e8e'
+        self.apiKey = '/emoApi/b99054df-7525-4f69-9fda-c3481d07bd6a'
 
 
     def __del__(self):
@@ -16,7 +16,6 @@ class VideoCamera(object):
 
     @property
     def get_frame(self):
-        time.sleep(0.2)
         success, image = self.video.read()
         _, img_encoded = cv2.imencode('.jpg', image)
 
