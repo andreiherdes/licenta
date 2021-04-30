@@ -37,7 +37,7 @@ pyreadline==2.1
 python-dateutil==2.7.1
 pytz==2018.3
 requests==2.19.1
-rsa==3.4.2
+rsa==4.7
 scikit-learn==0.19.1
 scipy==1.0.1
 setuptools==39.0.1
