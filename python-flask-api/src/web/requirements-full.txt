@@ -56,7 +56,7 @@ kiwisolver==1.0.1
 matplotlib==2.2.2
 numpy==1.14.2
 oauth2client==3.0.0
-opencv-python==3.4.1+contrib
+opencv-python==4.2.0.32
 pandas==0.19.1
 pip==9.0.3
 ply==3.8
